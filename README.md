@@ -1,6 +1,6 @@
 <div align="center">
 
-Hand Mouse Control
+🖐️ Hand Mouse Control
 
 Control your Windows mouse with real-time hand gestures and a webcam.
 
@@ -9,124 +9,210 @@ Control your Windows mouse with real-time hand gestures and a webcam.
 
 
 
-Download EXE · View Source · Report an Issue
+
+English · فارسی
 
 </div>
 
-What is this?
+🌟 What is Hand Mouse Control?
 
-Hand Mouse Control is a Windows application that turns a webcam into a hands-free mouse interface.
+Hand Mouse Control is a Windows application that lets you control the mouse with your hands through a webcam.
 
-It tracks your hands in real time, interprets a small set of gestures, and translates them into normal Windows mouse actions such as moving, clicking, dragging, and scrolling.
+The idea is simple: the webcam captures your hand, MediaPipe tracks the hand landmarks in real time, and the application converts those movements into normal Windows mouse actions.
 
-The project is built with Python and uses MediaPipe Hand Landmarker for hand tracking, OpenCV for camera processing, PyAutoGUI for mouse control, NumPy for coordinate calculations, and Tkinter for the settings interface.
+The project is designed around two-hand interaction:
 
-No special hardware is required beyond a compatible webcam.
+Hand
 
-Features
+Main role
 
-<table>
-<tr>
-<td width="50%">
+🖐️ Right hand
 
-Mouse Control
+Cursor movement, drag and drop, scrolling
 
-Move the cursor with your right hand
+🤚 Left hand
 
-Click-and-drag with a pinch gesture
+Left click and right click
 
-Scroll vertically with a dedicated gesture
+The application also includes a separate Settings window, live status information, camera switching, gesture overlays, and keyboard shortcuts.
 
-Smooth cursor movement with configurable smoothing
+💡 You can run the program directly from Python, or use the pre-built Windows .exe from the GitHub Releases page.
 
-</td>
-<td width="50%">
+✨ Features
 
-Gesture Input
+🖱️ Mouse control
 
-Two-hand interaction
+Move the cursor with the right index finger.
 
-Left and right click gestures
+Hold the mouse button for drag-and-drop using a thumb + index pinch.
 
-Gesture latching to prevent repeated clicks
+Enter scrolling mode using a thumb + ring-finger pinch.
 
-Configurable pinch and finger detection sensitivity
+Automatically release the mouse button if the tracked hand disappears during a drag.
 
-</td>
-</tr>
-<tr>
-<td width="50%">
+🤏 Gesture controls
 
-Camera & Tracking
+One raised finger on the left hand → right click.
 
-Real-time webcam tracking
+Two raised fingers on the left hand → left click.
 
-Up to two detected hands
+Click gestures are latched so holding a gesture does not trigger a new click every frame.
 
-Camera switching
+⚙️ Live settings
 
-Live FPS and camera status
+Change the following values while the program is running:
 
-Hand landmark visualization
+Cursor smoothing
 
-</td>
-<td width="50%">
+Pinch sensitivity
 
-Configuration
+Scroll speed
 
-Pause/resume mouse control
-
-Swap left/right hand roles
-
-Tracking-area adjustment
-
-Scroll speed adjustment
+Tracking area size
 
 Finger-up sensitivity
 
-Separate Settings window
+Camera index
 
-</td>
-</tr>
-</table>
+Left/right hand swapping
 
-Gesture Guide
+Mouse pause state
 
-Right hand — movement and actions
+🎥 Camera and interface
 
-Gesture
+Background camera capture thread.
 
-Action
+Live hand landmark visualization.
 
-Move index finger
+FPS display.
 
-Move the cursor
+Camera status display.
 
-Thumb + index pinch
+On-screen gesture information.
 
-Hold the mouse button for drag-and-drop
+Camera switching.
 
-Thumb + ring-finger pinch
+Separate Settings window.
 
-Enter scroll mode
+🎮 Gesture Guide
 
-Left hand — clicking
+Right hand
 
 Gesture
 
 Action
 
-Index finger raised
+Description
+
+☝️ Move index finger
+
+Move cursor
+
+Your index fingertip is mapped to the screen.
+
+🤏 Thumb + index pinch
+
+Drag
+
+Holds the mouse button while the fingers stay pinched.
+
+🤏 Thumb + ring pinch
+
+Scroll
+
+Vertical hand movement controls scrolling.
+
+Left hand
+
+Gesture
+
+Action
+
+Description
+
+☝️ Index finger only
 
 Right click
 
-Index + middle fingers raised
+A single raised finger triggers one right-click.
+
+✌️ Index + middle fingers
 
 Left click
 
-Clicks are triggered on the start of the gesture, rather than once every frame. This prevents a held gesture from producing a stream of clicks.
+Two raised fingers trigger one left-click.
 
-Controls at a glance
+🔄 Hand orientation: The camera preview is mirrored. The application adjusts MediaPipe's hand labels to match the physical hand shown in the preview. If your setup still feels reversed, enable Swap left/right hand in Settings.
+
+🪟 The two application windows
+
+When the program starts, it opens two windows.
+
+🎥 Camera window
+
+The camera window shows:
+
+The live webcam image.
+
+Detected hand landmarks.
+
+Current tracking state.
+
+FPS.
+
+Right-hand gesture status.
+
+Left-hand click status.
+
+A small help/legend panel.
+
+The camera window also receives the keyboard shortcuts listed below.
+
+⚙️ Settings window
+
+The Settings window provides live controls for:
+
+Setting
+
+What it changes
+
+Pause mouse control
+
+Temporarily stops mouse actions.
+
+Swap left/right hand
+
+Swaps the logical roles of the detected hands.
+
+Smoothing
+
+Higher values make movement smoother but can add more latency.
+
+Pinch sensitivity
+
+Changes how close two fingertips must be to count as a pinch.
+
+Scroll speed
+
+Changes the amount of scrolling produced by hand movement.
+
+Tracking area size
+
+Controls how much of the camera frame is mapped to the full screen.
+
+Finger-up sensitivity
+
+Changes how far a fingertip must be raised to count as an up finger.
+
+Camera index
+
+Selects which connected camera is used.
+
+Changes are applied while the program is running.
+
+⌨️ Keyboard shortcuts
+
+The shortcuts below work while the camera window is focused.
 
 Key
 
@@ -138,7 +224,7 @@ Pause / resume mouse control
 
 S
 
-Show / hide the overlay panel
+Show / hide the legend panel
 
 C
 
@@ -152,195 +238,222 @@ ESC
 
 Quit
 
-Keyboard shortcuts are handled while the camera window is focused.
+🧠 How it works
 
-How it works
+The application follows a simple real-time pipeline:
 
-The application is built around a simple real-time pipeline:
+Webcam
+   │
+   ▼
+Camera Capture Thread
+   │
+   ▼
+Newest Available Frame
+   │
+   ▼
+MediaPipe Hand Landmarker
+   │
+   ▼
+Hand + Landmark Detection
+   │
+   ▼
+Gesture Processing
+   │
+   ├── Cursor movement
+   ├── Drag
+   ├── Scroll
+   ├── Left click
+   └── Right click
+   │
+   ▼
+Windows Mouse
 
-┌──────────────┐
-│    Webcam    │
-└──────┬───────┘
-       │
-       ▼
-┌─────────────────────┐
-│ Camera Capture      │
-│ Background Thread   │
-└─────────┬───────────┘
-          │ newest frame
-          ▼
-┌─────────────────────┐
-│ MediaPipe Hand      │
-│ Landmarker          │
-└─────────┬───────────┘
-          │ 21 landmarks / hand
-          ▼
-┌─────────────────────┐
-│ Gesture Processing  │
-└─────────┬───────────┘
-          │
-          ▼
-┌─────────────────────┐
-│ PyAutoGUI           │
-│ Mouse Actions       │
-└─────────────────────┘
+1. Camera capture
 
-Camera capture
+The webcam is read on a dedicated background thread.
 
-The webcam is read on a dedicated background thread. The processing loop works with the newest available frame instead of waiting for a blocking camera read every iteration.
+Instead of making the processing loop wait for every camera read, the camera thread continuously updates the newest frame available. This helps prevent old frames from building up in the queue and reduces the feeling of delayed input.
 
-This is designed to reduce the amount of stale camera data waiting in a queue and helps keep the interaction responsive.
+The program requests a camera frame size of approximately 640×480 and attempts to use a small capture buffer where the backend supports it.
 
-Hand tracking
+2. Hand tracking
 
-MediaPipe Hand Landmarker detects the user's hands and provides the landmark coordinates used by the application.
+MediaPipe Hand Landmarker processes the newest RGB camera frame.
 
-The program supports two detected hands and maps them to the left-hand and right-hand interaction roles.
+The application runs the tracker in VIDEO mode and allows detection of up to two hands.
 
-Gesture detection
+For each detected hand, MediaPipe provides the hand landmarks used by the gesture logic.
 
-The gesture system checks landmark positions and distances to determine whether the user is moving, pinching, scrolling, or performing a click gesture.
+3. Hand classification
 
-Cursor mapping
+The camera preview is mirrored so it feels natural to the user.
 
-Hand coordinates are normalized to the camera frame and mapped into the available screen area. A configurable smoothing value is applied before the mouse pointer is moved.
+Because mirroring changes the visual left/right relationship, the program adjusts the MediaPipe handedness label and also provides a manual Swap left/right hand option.
 
-Lost-hand cleanup
+4. Cursor mapping
 
-When tracking is temporarily lost, active mouse states are cleaned up. For example, a drag is released rather than leaving the mouse button held down.
+The right index fingertip is represented by normalized coordinates inside the camera frame.
 
-Settings
+The active tracking area is converted into screen coordinates, then the result is passed through the smoothing system before PyAutoGUI moves the real Windows cursor.
 
-The application opens a separate Settings window with live controls.
+5. Gesture detection
 
-Setting
+The application uses landmark distances and finger positions to detect the supported gestures.
+
+Examples:
+
+Thumb-to-index distance → drag gesture.
+
+Thumb-to-ring distance → scroll gesture.
+
+Index/middle finger positions → left/right click gestures.
+
+6. Mouse state cleanup
+
+The program keeps track of whether dragging or scrolling is active.
+
+If the right hand disappears while dragging, the application releases the mouse button and clears the scroll state so the system does not remain in a stuck input state.
+
+7. Settings and runtime state
+
+The Tkinter Settings window updates the shared configuration while the camera-processing logic continues to run.
+
+The interface also displays the current FPS and camera status.
+
+🛠️ Technology stack
+
+Technology
 
 Purpose
 
-Pause mouse control
+🐍 Python
 
-Temporarily stop mouse actions while keeping tracking active
+Main application logic
 
-Swap left/right hand
+🎥 OpenCV
 
-Reverse which detected hand is assigned to each role
+Webcam capture and image processing
 
-Smoothing
+✋ MediaPipe Hand Landmarker
 
-Reduce cursor jitter or make movement more responsive
+Real-time hand and landmark detection
 
-Pinch sensitivity
+🖱️ PyAutoGUI
 
-Adjust the distance required for pinch gestures
+Windows mouse control
 
-Scroll speed
+🔢 NumPy
 
-Change the amount of scrolling produced by hand movement
+Coordinate mapping and numerical operations
 
-Tracking area size
+🪟 Tkinter
 
-Change how much of the camera frame is mapped to the screen
+Settings window and controls
 
-Finger-up sensitivity
+📦 PyInstaller
 
-Adjust how raised fingers are detected
+Standalone Windows executable
 
-Camera index
+📦 MediaPipe model
 
-Select a camera when multiple cameras are connected
+The repository includes:
 
-Getting started
+hand_landmarker.task
 
-There are two ways to use the project:
+This is the MediaPipe hand-tracking model used by the application.
 
-Method
+When the program starts, it checks for the model in the application directory. When the file is not available, the program can download the model from the configured MediaPipe model URL.
 
-Best for
+For a source checkout, keeping hand_landmarker.task next to main.py is recommended.
 
-Pre-built EXE
+When the program is built with the provided build.bat, the build command adds the model file to the packaged application data and also collects MediaPipe's required package data.
 
-Running the application without installing Python
+🚀 Run from source
 
-Run from source
-
-Development, testing, debugging, and modification
-
-Option A — Run the pre-built EXE
-
-The standalone Windows executable is published separately under GitHub Releases.
-
-Download
-
-Download the latest Windows release
-
-Download HandMouseControl.exe and run it on a supported Windows system.
-
-The EXE is separate from the source tree so the repository stays focused on the actual project files.
-
-Option B — Run from source
-
-Running from source does not require the compiled EXE.
+You do not need the .exe to develop or run the project from source.
 
 Requirements
 
 Windows 10 or Windows 11
 
-Python compatible with the installed MediaPipe version
+Python
 
 A working webcam
 
-Internet access for installing Python packages
+Camera access enabled in Windows
 
-Python 3.10–3.12 is the practical target for this project.
+The packages listed in requirements.txt
 
-1. Clone the repository
+For this project's MediaPipe dependency, Python 3.10–3.12 is a practical starting range. Exact compatibility can still depend on the package versions available when you install them.
 
-git clone https://github.com/Vergil-pain/HandMouseControl.git
-cd HandMouseControl
-
-2. Check Python
+1. Check Python
 
 python --version
 
-3. Install dependencies
+2. Install dependencies
 
 python -m pip install -r requirements.txt
 
-4. Start the application
+3. Start the application
 
 python main.py
 
-The program opens the camera/tracking window and the Settings window.
+On startup, the program should open:
 
-Camera permissions
+The camera/tracking window.
 
-If the camera does not work, check:
+The Settings window.
 
-Windows Settings → Privacy & security → Camera
+🏗️ Build the standalone EXE
 
-Make sure camera access is enabled for desktop applications.
-
-If more than one camera is connected, use the Camera index setting or press C in the camera window to switch cameras.
-
-Build your own EXE
-
-The repository includes build.bat for creating the standalone executable with PyInstaller.
-
-Build
-
-Run:
+The project includes:
 
 build.bat
 
-The compiled application is produced under:
+You can double-click it or run it from a Command Prompt:
+
+build.bat
+
+The script:
+
+Installs the Python requirements.
+
+Installs PyInstaller.
+
+Removes old build, dist, and .spec files when present.
+
+Builds a PyInstaller one-file executable.
+
+Applies the application icon.
+
+Adds hand_landmarker.task.
+
+Collects the MediaPipe package data.
+
+Includes the Tkinter modules used by the Settings window.
+
+The final file is created at:
 
 dist\HandMouseControl.exe
 
-The build configuration is intended to bundle the application into a Windows executable so Python does not need to be installed on the target machine.
+📥 Using the EXE
 
-If the EXE behaves differently from the source version, run python main.py from a Command Prompt first. That makes Python errors visible and is the easiest way to separate a Python/runtime problem from a packaging problem.
+The compiled executable is intended for Windows users who want to run the application without installing Python separately.
 
-Project structure
+The project keeps the source code and the compiled application separate:
+
+GitHub Repository
+├── Source code
+├── Model
+├── Build script
+└── Documentation
+
+GitHub Release
+└── HandMouseControl.exe
+
+The current release is available from the repository's Releases page.
+
+📁 Project structure
 
 HandMouseControl/
 ├── main.py
@@ -348,7 +461,8 @@ HandMouseControl/
 ├── requirements.txt
 ├── hand_landmarker.task
 ├── icon.ico
-└── README.md
+├── README.md
+└── README.fa.md
 
 File
 
@@ -356,216 +470,407 @@ Purpose
 
 main.py
 
-Main application, camera processing, gesture detection, mouse control, and settings UI
+Complete application logic.
 
 build.bat
 
-Build script for the Windows executable
+Automated PyInstaller build script.
 
 requirements.txt
 
-Python package requirements
+Python package requirements.
 
 hand_landmarker.task
 
-MediaPipe hand-tracking model
+MediaPipe hand model.
 
 icon.ico
 
-Windows application icon
+Windows application icon.
 
 README.md
 
-Project documentation
+English documentation.
 
-MediaPipe model
+README.fa.md
 
-hand_landmarker.task is the hand-tracking model used by MediaPipe Hand Landmarker.
+Persian documentation.
 
-The model provides the landmark data the application uses to recognize hand position and gestures.
+🧩 Application architecture
 
-Keeping the model file with the project also makes source-based setup and packaging easier to understand and reproduce.
+The project is organized around a few major runtime components.
 
-Architecture
+Config
 
-The application separates camera capture from frame processing:
+Stores shared runtime settings such as smoothing, pinch threshold, scroll speed, camera index, tracking margin, hand swapping, pause state, FPS, and camera status.
 
-Camera thread → captures frames continuously and keeps the newest frame available.
+CameraStream
 
-Tracking / processing loop → receives the latest frame, runs MediaPipe, detects gestures, updates the UI overlay, and sends mouse actions through PyAutoGUI.
+Owns the webcam connection and runs frame acquisition on its own background thread.
 
-Settings window → provides live configuration controls through Tkinter.
+HandMouseController
 
-This separation is intended to avoid making the mouse-control loop wait unnecessarily on webcam capture.
+Creates the MediaPipe Hand Landmarker and contains the hand-to-mouse logic.
 
-Troubleshooting
+It is responsible for:
+
+hand classification
+
+coordinate mapping
+
+smoothing
+
+gesture detection
+
+clicking
+
+dragging
+
+scrolling
+
+input-state cleanup
+
+SettingsWindow
+
+Builds the Tkinter interface and synchronizes user settings with the running application.
+
+Camera loop
+
+The camera-processing loop combines:
+
+Capture
+  ↓
+Flip / RGB conversion
+  ↓
+MediaPipe detection
+  ↓
+Gesture handling
+  ↓
+HUD drawing
+  ↓
+OpenCV window
+  ↓
+Keyboard input
+
+Per-frame processing is protected so an individual processing error is logged instead of immediately terminating the whole loop.
+
+🔧 Configuration defaults
+
+The application starts with these main defaults:
+
+Option
+
+Default
+
+Camera index
+
+0
+
+Maximum camera indexes checked
+
+4
+
+Tracking frame margin
+
+0.15
+
+Cursor smoothing
+
+0.35
+
+Pinch threshold
+
+0.045
+
+Scroll speed
+
+800
+
+Finger-up margin
+
+0.02
+
+Hand swapping
+
+Disabled
+
+Mouse control
+
+Active
+
+Overlay panel
+
+Visible
+
+These values can be changed live in the Settings window.
+
+🩹 Troubleshooting
 
 <details>
-<summary><strong>The application does not start</strong></summary>
+<summary><strong>❌ The application does not start</strong></summary>
 
-Run it from Command Prompt:
+Run the source version from Command Prompt:
 
 python main.py
 
-This exposes the actual Python error instead of hiding it behind a double-click.
+This lets Python print the actual exception or dependency error instead of hiding it behind a GUI executable.
+
+If the Python version works but the EXE does not, rebuild the EXE using the provided build.bat.
 
 </details>
 
 <details>
-<summary><strong>The camera window is black or says there is no signal</strong></summary>
+<summary><strong>📷 The camera is black or not detected</strong></summary>
 
-Check Windows camera permissions and make sure another application is not already using the webcam.
+Open:
 
-Try another camera index from the Settings window or press C while the camera window is focused.
+Windows Settings → Privacy & security → Camera
 
-</details>
+Make sure camera access is enabled.
 
-<details>
-<summary><strong>The cursor is too jittery</strong></summary>
+If more than one camera is connected:
 
-Increase Smoothing in the Settings window.
+press C in the camera window, or
 
-</details>
+choose another value in Camera index in Settings.
 
-<details>
-<summary><strong>The cursor feels delayed</strong></summary>
-
-Lower the Smoothing value and make sure another application is not heavily using the webcam.
+Also make sure another application is not already occupying the webcam.
 
 </details>
 
 <details>
-<summary><strong>Pinch gestures trigger too easily or not easily enough</strong></summary>
+<summary><strong>🎯 The cursor is too jittery</strong></summary>
 
-Adjust Pinch sensitivity in the Settings window.
+Increase Smoothing.
 
-</details>
-
-<details>
-<summary><strong>Click gestures trigger incorrectly</strong></summary>
-
-Adjust Finger-up sensitivity and make sure the intended gesture is clearly visible to the camera.
+Higher smoothing reduces small movements but can introduce additional delay.
 
 </details>
 
 <details>
-<summary><strong>Left and right hands seem reversed</strong></summary>
+<summary><strong>🐢 The cursor feels delayed</strong></summary>
 
-Enable Swap left/right hand in the Settings window.
+Lower Smoothing.
 
-</details>
-
-<details>
-<summary><strong>MediaPipe cannot load the model</strong></summary>
-
-Make sure hand_landmarker.task exists in the project directory when running from source.
-
-If you are building the application yourself, rebuild the executable after changing the project files.
+Also check whether another application is using the webcam or placing extra processing load on the system.
 
 </details>
 
 <details>
-<summary><strong>The EXE does not start</strong></summary>
+<summary><strong>🤏 Pinch gestures are unreliable</strong></summary>
 
-Try the source version first:
+Adjust Pinch sensitivity.
 
-python main.py
-
-If the source version works but the EXE does not, rebuild with:
-
-build.bat
-
-Running the source version from a terminal is also useful for finding missing dependencies or runtime errors.
+If the pinch triggers too easily, change the value in the opposite direction. If it rarely triggers, increase the sensitivity until the gesture becomes reliable for your camera distance and lighting.
 
 </details>
 
-Privacy
+<details>
+<summary><strong>☝️ Click gestures are too sensitive or not sensitive enough</strong></summary>
+
+Adjust Finger-up sensitivity in Settings.
+
+The setting controls how far a fingertip must be above its joint position to count as a raised finger.
+
+</details>
+
+<details>
+<summary><strong>🔄 The left and right hands are reversed</strong></summary>
+
+Enable:
+
+Swap left/right hand
+
+in the Settings window.
+
+</details>
+
+<details>
+<summary><strong>🧠 MediaPipe cannot import after building</strong></summary>
+
+Rebuild using the provided build.bat.
+
+The build command explicitly collects MediaPipe package data and includes the model file required by the application.
+
+</details>
+
+<details>
+<summary><strong>🌐 The hand-tracking model cannot be downloaded</strong></summary>
+
+When hand_landmarker.task is missing, the application can attempt to download it.
+
+Check:
+
+internet connectivity
+
+firewall restrictions
+
+whether the application can access the configured MediaPipe model URL
+
+For source usage, you can also keep the provided hand_landmarker.task in the project directory.
+
+</details>
+
+<details>
+<summary><strong>🐍 MediaPipe cannot be installed</strong></summary>
+
+The project's requirements use version ranges rather than a single hard-coded MediaPipe version.
+
+If installation fails, check your Python version first:
+
+python --version
+
+A Python 3.10–3.12 environment is a practical place to start for this project.
+
+</details>
+
+<details>
+<summary><strong>⏳ The one-file EXE takes a few seconds to start</strong></summary>
+
+A PyInstaller --onefile application has to unpack its bundled files at startup.
+
+A slower first launch can therefore be normal.
+
+</details>
+
+🔒 Privacy
 
 The application uses the webcam for real-time hand tracking and mouse control.
 
-The project does not intentionally upload webcam frames or hand-tracking data to an online service as part of its normal mouse-control workflow.
+The project does not intentionally upload camera frames or hand-tracking results to an online service.
 
-Internet access may still be needed for installing Python packages or obtaining project dependencies when setting up from source.
+The camera processing is part of the local application workflow.
 
-Security
+Internet access may still be required for:
 
-Only run the source code or executable from a copy of the project you trust.
+installing Python packages
 
-Packaged Python applications can sometimes trigger antivirus or security software because of how bundled executables are structured. Review any warning before allowing an executable to run.
+downloading the MediaPipe model if it is not available locally
 
-Development
+🛡️ Security
 
-The repository is intended to be usable both as an application and as a development project.
+Only run the source code or executable from a trusted copy of the project.
 
-Typical development flow:
+Because the application controls the Windows mouse and accesses the webcam, you should understand and trust the code before running it.
 
+PyInstaller-generated applications can sometimes trigger antivirus or reputation warnings. Such a warning should be reviewed rather than automatically ignored.
+
+The safest option is to build the executable yourself from the published source if you do not want to rely on a pre-built binary.
+
+👨‍💻 Development
+
+The repository contains the files needed to inspect, modify, test, and rebuild the application.
+
+A basic development workflow is:
+
+python --version
 python -m pip install -r requirements.txt
 python main.py
 
-After making changes, rebuild the Windows application with:
+After making changes:
 
 build.bat
 
-Contributing
+The generated executable will appear at:
 
-Contributions, bug reports, and suggestions are welcome.
+dist\HandMouseControl.exe
 
-For a code contribution:
+Development tips
+
+Test camera access before debugging gesture logic.
+
+Keep the camera window focused when testing keyboard shortcuts.
+
+Adjust smoothing and gesture sensitivity for the specific webcam setup.
+
+Test both one-hand and two-hand tracking.
+
+Test what happens when a hand disappears during a drag.
+
+🤝 Contributing
+
+Contributions are welcome.
+
+A simple workflow is:
 
 Fork the repository.
 
-Make your changes.
+Create your changes.
 
-Test the changed behavior.
+Run the application from source.
 
-Open a pull request with a clear description.
+Test the gesture and camera behavior.
 
-When reporting a bug, include useful details such as:
+Submit a Pull Request.
+
+🐛 Bug reports
+
+When reporting an issue, include as much useful information as possible:
 
 Windows version
 
-Python version, if running from source
+Python version
 
-Camera information
+Camera model, if relevant
 
-Error message or console output
+What gesture was being used
 
-Steps to reproduce the problem
+What you expected to happen
 
-Release
+What actually happened
 
-The project keeps the source code and the compiled application separate:
+The error message, if one appeared
 
-Repository: source code, model, build script, dependencies, and documentation
+Steps needed to reproduce the issue
 
-GitHub Releases: compiled Windows executable
+📦 Releases
 
-Current release
+The repository keeps development files and the compiled Windows application separate.
 
-v1.0.0
+Source repository
 
-Download HandMouseControl v1.0.0
+Contains:
 
-Contact
+Python source
 
-Have a bug report, suggestion, or question?
+requirements
 
-Telegram: @XRO_G
+MediaPipe model
 
-Author
+build script
 
-XRO
+icons
 
-Telegram: @XRO_G
+English and Persian documentation
 
-License
+GitHub Releases
+
+Contains the ready-to-run Windows executable.
+
+Current release:
+
+Hand Mouse Control v1.0.0
+
+View Releases →
+
+📄 License
 
 No specific open-source license is currently included with this project.
 
+Unless a license is added, the source code should not be assumed to be freely reusable, modified, or redistributed under an open-source license.
+
+📬 Contact
+
+Questions, bug reports, suggestions, or feedback are welcome.
+
+Telegram: @XRO_G
+
 <div align="center">
 
-Hand Mouse Control
+🖐️ Built with Python, OpenCV, MediaPipe, PyAutoGUI and Tkinter.
 
-Made with Python · OpenCV · MediaPipe · PyAutoGUI
+⭐ Repository · ⬇️ Releases · 💬 Telegram
+
+English · فارسی
 
 </div>
